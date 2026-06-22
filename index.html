@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo de Servicios · Asesor en Geomarketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0C2429;
+    --ink-soft:#163138;
+    --paper:#E9ECE6;
+    --paper-2:#F3F5F0;
+    --card:#FBFBF8;
+    --line:#C8CEC6;
+    --coral:#E0532E;
+    --coral-d:#C0421F;
+    --teal:#1F7A6D;
+    --teal-l:#3FB6A8;
+    --ochre:#C19A45;
+    --muted:#5C6B6A;
+    --text:#152327;
+    --shadow:0 1px 2px rgba(12,36,41,.06),0 8px 24px rgba(12,36,41,.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+    color:var(--text);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace}
+  h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:var(--ink);color:#E9ECE6;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .topbar .wrap{
+    max-width:1180px;margin:0 auto;padding:11px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk';font-weight:600;font-size:15px}
+  .brand .pin{
+    width:22px;height:22px;border-radius:50% 50% 50% 0;background:var(--coral);
+    transform:rotate(-45deg);flex:none;box-shadow:inset 0 0 0 4px rgba(255,255,255,.85);
+  }
+  .topcontact{display:flex;gap:20px;font-size:13.5px;align-items:center;flex-wrap:wrap}
+  .topcontact a{color:#CFE0DC;text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .2s}
+  .topcontact a:hover{color:#fff}
+  .topcontact .ic{width:15px;height:15px;opacity:.8}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden;background:var(--ink);color:#EAF0EE;padding:62px 24px 150px}
+  .hero .grid-bg{position:absolute;inset:0;opacity:.5;pointer-events:none}
+  .hero-inner{max-width:1180px;margin:0 auto;position:relative}
+  .eyebrow{
+    font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--teal-l);display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--teal-l)}
+  .hero h1{font-size:clamp(30px,5vw,52px);font-weight:700;line-height:1.04;max-width:16ch}
+  .hero h1 em{font-style:normal;color:var(--coral)}
+  .hero p.lead{margin-top:20px;max-width:54ch;font-size:17px;color:#B9C8C5}
+  .coord{
+    position:absolute;right:24px;top:54px;font-family:'IBM Plex Mono';font-size:11.5px;
+    color:rgba(180,200,196,.55);text-align:right;line-height:1.9;
+  }
+  @media(max-width:720px){.coord{display:none}}
+
+  /* ---------- mode cards (the two options) ---------- */
+  .modes{
+    max-width:1180px;margin:-96px auto 0;padding:0 24px;position:relative;z-index:5;
+    display:grid;grid-template-columns:2fr 1fr;gap:20px;align-items:stretch;
+  }
+  @media(max-width:760px){.modes{grid-template-columns:1fr}}
+  .mode-card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 26px;
+    cursor:pointer;box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease,border-color .18s;
+    text-align:left;display:flex;flex-direction:column;gap:14px;color:var(--text);
+  }
+  .mode-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(12,36,41,.14);border-color:var(--teal)}
+  .mode-card .tag{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .mode-card h2{font-size:23px}
+  .mode-card p{color:var(--muted);font-size:14.5px}
+  .mode-card .go{
+    margin-top:auto;font-family:'Space Grotesk';font-weight:600;color:var(--coral);
+    display:flex;align-items:center;gap:8px;font-size:15px;
+  }
+  .mode-card .go svg{transition:transform .2s}
+  .mode-card:hover .go svg{transform:translateX(5px)}
+  .mode-card .num{
+    width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+    font-family:'Space Grotesk';font-weight:700;font-size:20px;color:#fff;
+  }
+  .mode-card.cat .num{background:var(--teal)}
+  .mode-card.quiz .num{background:var(--coral)}
+
+  /* ---------- section shell ---------- */
+  .panel{display:none;max-width:1180px;margin:0 auto;padding:54px 24px 30px}
+  .panel.active{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  /* al abrir un panel, ocultamos el hero y las dos tarjetas: solo se ve el contenido elegido */
+  body.panel-open .hero,
+  body.panel-open .modes{display:none}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+  .sec-head h2{font-size:30px}
+  .sec-head .sub{color:var(--muted);font-size:14.5px;max-width:46ch;margin-top:6px}
+  .backbtn{
+    background:none;border:1px solid var(--line);border-radius:9px;padding:9px 15px;cursor:pointer;
+    font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.05em;color:var(--ink);display:flex;gap:8px;align-items:center;
+    transition:background .15s,border-color .15s;
+  }
+  .backbtn:hover{background:var(--paper-2);border-color:var(--teal)}
+
+  /* ---------- filters ---------- */
+  .filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:30px}
+  .chip{
+    border:1px solid var(--line);background:var(--card);border-radius:30px;padding:8px 16px;cursor:pointer;
+    font-size:13.5px;font-weight:500;color:var(--muted);transition:all .15s;font-family:'Inter';
+  }
+  .chip:hover{border-color:var(--teal)}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  /* ---------- package grid ---------- */
+  .pkgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:20px}
+  .pkg{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .16s,box-shadow .16s;
+  }
+  .pkg:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(12,36,41,.12)}
+  .pkg-top{padding:20px 22px 18px;border-bottom:1px dashed var(--line);position:relative}
+  .pkg .code{
+    font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.12em;color:#fff;background:var(--teal);
+    padding:3px 9px;border-radius:5px;display:inline-block;
+  }
+  .pkg[data-cat="senior"] .code{background:var(--ink)}
+  .pkg[data-cat="programa"] .code{background:var(--ochre)}
+  .pkg[data-cat="producto"] .code{background:var(--coral)}
+  .pkg[data-cat="especial"] .code{background:var(--muted)}
+  .pkg h3{font-size:20px;margin-top:11px;line-height:1.15}
+  .pkg .price{font-family:'Space Grotesk';font-weight:700;font-size:21px;color:var(--ink);margin-top:12px}
+  .pkg .price .iva{font-family:'IBM Plex Mono';font-size:12px;font-weight:500;color:var(--coral);letter-spacing:.04em}
+  .pkg .meta{font-family:'IBM Plex Mono';font-size:12px;color:var(--muted);margin-top:5px}
+  .pkg-body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px;flex:1}
+  .forwho{font-size:13.5px;color:var(--muted)}
+  .forwho b{color:var(--text);font-weight:600;font-family:'Space Grotesk';display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;color:var(--teal)}
+  .inc{list-style:none;display:flex;flex-direction:column;gap:7px;font-size:13.5px}
+  .inc li{display:flex;gap:9px;align-items:flex-start;color:#2c3a3a}
+  .inc li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--coral);margin-top:7px;flex:none}
+  .inc-label{font-family:'Space Grotesk';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)}
+  .pkg .cta{
+    margin-top:auto;text-decoration:none;text-align:center;background:var(--ink);color:#fff;
+    padding:11px;border-radius:9px;font-family:'Space Grotesk';font-weight:600;font-size:14px;transition:background .15s;
+  }
+  .pkg .cta:hover{background:var(--coral)}
+
+  /* ---------- quiz ---------- */
+  .quiz-wrap{max-width:720px;margin:0 auto}
+  .progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:8px}
+  .progress span{display:block;height:100%;background:var(--coral);width:0;transition:width .3s ease}
+  .qcount{font-family:'IBM Plex Mono';font-size:12px;color:var(--muted);margin-bottom:26px;letter-spacing:.05em}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:34px 30px;box-shadow:var(--shadow)}
+  .qcard .qkicker{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+  .qcard h3{font-size:23px;line-height:1.2;margin-bottom:22px}
+  .opts{display:flex;flex-direction:column;gap:11px}
+  .opt{
+    text-align:left;border:1px solid var(--line);background:var(--paper-2);border-radius:11px;padding:15px 17px;
+    cursor:pointer;font-size:15px;color:var(--text);transition:all .14s;display:flex;align-items:center;gap:13px;font-family:'Inter';
+  }
+  .opt:hover{border-color:var(--coral);background:#fff;transform:translateX(3px)}
+  .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:none;transition:.14s}
+  .opt:hover .dot{border-color:var(--coral)}
+  .opt.sel{border-color:var(--coral);background:#fff}
+  .opt.sel .dot{border-color:var(--coral);background:var(--coral);box-shadow:inset 0 0 0 3px #fff}
+  .qnav{display:flex;justify-content:space-between;margin-top:24px;gap:12px}
+  .qnav button{
+    font-family:'Space Grotesk';font-weight:600;font-size:14.5px;padding:12px 22px;border-radius:10px;cursor:pointer;border:none;transition:.15s;
+  }
+  .qnav .prev{background:none;border:1px solid var(--line);color:var(--ink)}
+  .qnav .prev:hover{background:var(--paper-2)}
+  .qnav .prev:disabled{opacity:.35;cursor:not-allowed}
+  .qnav .next{background:var(--coral);color:#fff}
+  .qnav .next:hover{background:var(--coral-d)}
+  .qnav .next:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---------- result ---------- */
+  .result{display:none}
+  .result.show{display:block;animation:fade .4s ease}
+  .res-banner{
+    background:var(--ink);color:#EAF0EE;border-radius:18px;padding:34px 32px;position:relative;overflow:hidden;
+  }
+  .res-banner .grid-bg{position:absolute;inset:0;opacity:.35}
+  .res-banner .inner{position:relative}
+  .res-banner .lab{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-l);margin-bottom:10px}
+  .res-banner h2{font-size:30px;line-height:1.1}
+  .res-banner .rcode{font-family:'IBM Plex Mono';font-size:13px;background:var(--coral);color:#fff;padding:4px 11px;border-radius:6px;display:inline-block;margin-bottom:14px}
+  .res-banner .rprice{font-family:'Space Grotesk';font-weight:700;font-size:25px;margin-top:16px}
+  .res-banner .rprice .iva{font-family:'IBM Plex Mono';font-size:13px;color:var(--teal-l)}
+  .res-banner .rmeta{font-family:'IBM Plex Mono';font-size:12.5px;color:#9fb3af;margin-top:4px}
+  .res-detail{background:var(--card);border:1px solid var(--line);border-top:none;border-radius:0 0 16px 16px;padding:26px 30px;margin:-14px 14px 0;position:relative;box-shadow:var(--shadow)}
+  .res-detail .forwho{font-size:14.5px;margin-bottom:18px}
+  .alts{margin-top:34px}
+  .alts h4{font-family:'Space Grotesk';font-size:14px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
+  .alt-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.alt-grid{grid-template-columns:1fr}}
+  .alt{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);cursor:pointer;text-align:left;width:100%;font-family:inherit;color:var(--text);display:flex;flex-direction:column;transition:transform .16s,box-shadow .16s,border-color .16s}
+  .alt:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(12,36,41,.12);border-color:var(--teal)}
+  .alt:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .alt-go{margin-top:12px;font-family:'IBM Plex Mono';font-size:12px;color:var(--coral);letter-spacing:.04em;font-weight:600}
+  .alt .code{font-family:'IBM Plex Mono';font-size:11px;color:var(--teal);letter-spacing:.1em}
+  .alt h5{font-family:'Space Grotesk';font-size:17px;margin:6px 0 4px}
+  .alt .p{font-family:'Space Grotesk';font-weight:600;color:var(--ink);font-size:15px}
+  .alt .p .iva{font-family:'IBM Plex Mono';font-size:11px;color:var(--coral)}
+  .res-cta{margin-top:34px;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:26px;text-align:center}
+  .res-cta h4{font-family:'Space Grotesk';font-size:20px;margin-bottom:6px}
+  .res-cta p{color:var(--muted);font-size:14px;margin-bottom:18px}
+  .res-cta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn-primary,.btn-ghost{text-decoration:none;font-family:'Space Grotesk';font-weight:600;font-size:14.5px;padding:13px 24px;border-radius:10px;transition:.15s;display:inline-flex;align-items:center;gap:9px}
+  .btn-primary{background:var(--coral);color:#fff}
+  .btn-primary:hover{background:var(--coral-d)}
+  .btn-ghost{background:none;border:1px solid var(--ink);color:var(--ink)}
+  .btn-ghost:hover{background:var(--ink);color:#fff}
+  .restart{margin-top:18px;text-align:center}
+  .restart button{background:none;border:none;color:var(--muted);font-family:'IBM Plex Mono';font-size:12px;cursor:pointer;text-decoration:underline;letter-spacing:.04em}
+  .restart button:hover{color:var(--coral)}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink);color:#C7D6D2;margin-top:60px;padding:46px 24px}
+  .foot{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+  .foot .brand2{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk';font-weight:600;font-size:16px;color:#fff}
+  .foot .pin{width:22px;height:22px;border-radius:50% 50% 50% 0;background:var(--coral);transform:rotate(-45deg);box-shadow:inset 0 0 0 4px rgba(255,255,255,.85)}
+  .foot-contact{display:flex;flex-direction:column;gap:11px}
+  .foot-contact .lbl{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-l);margin-bottom:3px}
+  .foot-contact a{color:#E6EFEC;text-decoration:none;font-size:16px;font-family:'Space Grotesk';display:flex;gap:9px;align-items:center}
+  .foot-contact a:hover{color:var(--coral)}
+  .foot .note{font-family:'IBM Plex Mono';font-size:11.5px;color:#7f9590;max-width:30ch;line-height:1.8}
+  .ivanote{text-align:center;font-family:'IBM Plex Mono';font-size:11.5px;color:#7f9590;margin-top:34px;border-top:1px solid rgba(255,255,255,.08);padding-top:22px}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="pin"></span> Asesor en Geomarketing</div>
+    <div class="topcontact">
+      <a href="tel:3313035476">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        33 1303 5476
+      </a>
+      <a href="https://wa.me/523313035476" target="_blank" rel="noopener">
+        <svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12 2a10 10 0 0 0-8.6 15.06L2 22l5.05-1.32A10 10 0 1 0 12 2zm0 18.18a8.16 8.16 0 0 1-4.16-1.14l-.3-.18-3 .79.8-2.92-.2-.3A8.18 8.18 0 1 1 12 20.18z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <svg class="grid-bg" id="gridHero" preserveAspectRatio="none"></svg>
+  <div class="hero-inner">
+    <div class="coord mono">19.0414° N<br>-98.2063° W<br>AGEB · NSE · ISÓCRONA</div>
+    <div class="eyebrow">Inteligencia territorial · México 2026</div>
+    <h1>Decide <em>dónde</em> con datos, no con corazonadas.</h1>
+    <p class="lead">Análisis de ubicación, expansión de red y diseño de territorios para emprendedores, cadenas y corporativos. Elige cómo empezar.</p>
+  </div>
+</section>
+
+<!-- ============ MODE CARDS ============ -->
+<div class="modes">
+  <button class="mode-card quiz" onclick="openQuiz()">
+    <div class="num">01</div>
+    <span class="tag">Opción 1 · No sé qué busco</span>
+    <h2>Responde 12 preguntas</h2>
+    <p>Cuéntame de tu negocio en un cuestionario corto y te diré cuál es tu paquete ideal, con dos alternativas más.</p>
+    <span class="go">Empezar cuestionario
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </button>
+  <button class="mode-card cat" onclick="openCatalog()">
+    <div class="num">02</div>
+    <span class="tag">Opción 2 · Vitrina completa</span>
+    <h2>Ver todos los paquetes</h2>
+    <p>Explora el catálogo completo con alcance, precios y tiempos. Filtra por tipo de servicio y compara a tu ritmo.</p>
+    <span class="go">Abrir catálogo
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </button>
+</div>
+
+<!-- ============ CATALOG PANEL ============ -->
+<section class="panel" id="catalogPanel">
+  <div class="sec-head">
+    <div>
+      <h2>Catálogo de paquetes</h2>
+      <p class="sub">Precios en pesos mexicanos. Todos se facturan más IVA. Los tiempos son estimados de entrega.</p>
+    </div>
+    <button class="backbtn" onclick="goHome()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      Volver al inicio
+    </button>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div class="pkgs" id="pkgGrid"></div>
+</section>
+
+<!-- ============ QUIZ PANEL ============ -->
+<section class="panel" id="quizPanel">
+  <div class="sec-head">
+    <div>
+      <h2>Encuentra tu paquete ideal</h2>
+      <p class="sub">12 preguntas rápidas. No hay respuestas incorrectas: cada una afina la recomendación.</p>
+    </div>
+    <button class="backbtn" onclick="goHome()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      Volver al inicio
+    </button>
+  </div>
+
+  <div class="quiz-wrap">
+    <!-- question flow -->
+    <div id="quizFlow">
+      <div class="progress"><span id="progressBar"></span></div>
+      <div class="qcount" id="qCount">Pregunta 1 de 12</div>
+      <div class="qcard">
+        <div class="qkicker" id="qKicker">Perfil</div>
+        <h3 id="qText"></h3>
+        <div class="opts" id="qOpts"></div>
+        <div class="qnav">
+          <button class="prev" id="prevBtn" onclick="prevQ()">Atrás</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- result -->
+    <div class="result" id="result">
+      <div class="res-banner">
+        <svg class="grid-bg" id="gridRes" preserveAspectRatio="none"></svg>
+        <div class="inner">
+          <div class="lab" id="rLab">Tu paquete ideal</div>
+          <span class="rcode mono" id="rCode"></span>
+          <h2 id="rName"></h2>
+          <div class="rprice" id="rPrice"></div>
+          <div class="rmeta mono" id="rMeta"></div>
+        </div>
+      </div>
+      <div class="res-detail">
+        <p class="forwho" id="rForwho"></p>
+        <span class="inc-label">Incluye</span>
+        <ul class="inc" id="rInc" style="margin-top:10px"></ul>
+      </div>
+
+      <div class="alts">
+        <h4>También podrían encajar</h4>
+        <div class="alt-grid" id="altGrid"></div>
+      </div>
+
+      <div class="res-cta">
+        <h4>¿Conversamos sobre tu caso?</h4>
+        <p>Te preparo una propuesta a la medida sobre esta base, sin compromiso.</p>
+        <div class="btns">
+          <a class="btn-primary" id="waLink" href="#" target="_blank" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4-1.1l-.3-.2-2.8.8.8-2.7-.2-.3A8 8 0 1 1 12 20zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8 1-.3.2-.5 0a6.6 6.6 0 0 1-1.9-1.2 7.3 7.3 0 0 1-1.4-1.7c-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.9c-.2-.5-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.6 4c.6.3 1.1.5 1.5.6a3.5 3.5 0 0 0 1.6.1c.5-.1 1.4-.6 1.6-1.1a2 2 0 0 0 .1-1.1c0-.1-.2-.2-.4-.3z"/></svg>
+            Cotizar este paquete por WhatsApp
+          </a>
+        </div>
+        <div class="restart"><button onclick="restartQuiz()">↺ Responder de nuevo</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot">
+    <div>
+      <div class="brand2"><span class="pin"></span> Asesor en Geomarketing</div>
+      <p class="note mono" style="margin-top:14px">Inteligencia territorial para decidir dónde abrir, dónde crecer y dónde optimizar.</p>
+    </div>
+  </div>
+  <div class="ivanote">Todos los precios están expresados en pesos mexicanos (MXN) antes de IVA · Al facturar se agrega el IVA correspondiente (16% general · 8% región fronteriza)</div>
+</footer>
+
+<script>
+/* ============================================================
+   DATOS DE PAQUETES (Sección A — públicos)
+   ============================================================ */
+const CATS = [
+  {id:'mid',      label:'Paquetes MID'},
+  {id:'senior',   label:'Paquetes Senior'},
+  {id:'programa', label:'Programas continuos'},
+  {id:'producto', label:'Productos y suscripciones'},
+  {id:'especial', label:'Servicios especiales'},
+  {id:'all',      label:'Todos'},
+];
+
+const PKGS = [
+  /* ---------- MID ---------- */
+  {id:'M1',cat:'mid',name:'Validador de Punto',price:'$15,000',meta:'10–14 días',
+   forwho:'Emprendedor que abre su primer local o PYME que evalúa una sola ubicación candidata.',
+   inc:['Diagnóstico de objetivos y kick-off (1 reunión)','Perfil sociodemográfico de la zona (radio 1 km)','Mapeo de competencia directa en radio 1 km','Isócrona de 5 y 10 minutos a pie y auto','3 mapas temáticos','Reporte ejecutivo de 10–15 páginas','Sesión de presentación de 60 min','15 días de soporte por correo']},
+  {id:'M2',cat:'mid',name:'Comparador de Candidatos',price:'$28,000',meta:'2–3 semanas',
+   forwho:'PYME con 2–3 candidatos a evaluar antes de decidir.',
+   inc:['Todo lo del M1 aplicado a hasta 3 ubicaciones','Matriz comparativa con criterios ponderados','Ranking final con recomendación','Presentación ejecutiva']},
+  {id:'M3',cat:'mid',name:'Expansión Inteligente',price:'$45,000',meta:'3–4 semanas',
+   forwho:'PYME planeando expansión de 2–5 sucursales o evaluando una zona metropolitana.',
+   inc:['Diagnóstico estratégico con dueño/director','Análisis sociodemográfico y NSE AMAI detallado','Mapeo extendido de competencia (directa + indirecta)','Áreas de captación isócronas multimodales','Análisis de canibalización básica entre puntos propios','Hasta 5 ubicaciones evaluadas','Mapas interactivos web','Reporte ejecutivo + presentación directiva','30 días de soporte']},
+  {id:'M4',cat:'mid',name:'Geocodificación + Enriquecimiento',price:'Desde $12,000',meta:'1–2 semanas',
+   forwho:'PYME con base de clientes ≥1,000 registros que quiere mapearla y enriquecerla.',
+   inc:['Geocodificación masiva de direcciones','Validación y limpieza','Enriquecimiento con NSE, AGEB, municipio, distrito','Mapa de calor de la base','Reporte de hallazgos','Entrega en CSV / Shapefile / Excel','Tarifa $0.80–$3.00 por registro según volumen']},
+  {id:'M5',cat:'mid',name:'Análisis de Cartera de Clientes',price:'$38,000',meta:'2–3 semanas',
+   forwho:'PYME que quiere entender la distribución espacial de sus clientes existentes.',
+   inc:['Geocodificación de hasta 5,000 clientes','Mapa de calor y de densidad','Análisis de clusters (hotspots)','Identificación de zonas frías y oportunidades','Cruce con NSE y AGEB','Recomendaciones de marketing local']},
+  {id:'M6',cat:'mid',name:'Inteligencia Territorial Pro',price:'$90,000',meta:'5–7 semanas',
+   forwho:'Cadena en crecimiento (5–15 sucursales) que necesita diagnóstico completo de red + plan de aperturas.',
+   inc:['Diagnóstico de red existente','Análisis de canibalización completa','Mapeo de competencia regional','Modelo de scoring de candidatos a apertura','Identificación de 8–12 zonas de oportunidad','Dashboard interactivo (Power BI o Looker Studio)','Reporte ejecutivo + 2 presentaciones','60 días de soporte']},
+  {id:'M7',cat:'mid',name:'Diseño de Territorios de Venta',price:'$75,000',meta:'4–6 semanas',
+   forwho:'Empresas con fuerza de ventas (10+ vendedores), distribuidoras y ruteros.',
+   inc:['Análisis del territorio actual','Definición de criterios (potencial, carga, traslado)','Diseño de zonas balanceadas','Mapas de territorios optimizados','Recomendaciones de cuotas por zona','Capacitación al equipo (1 sesión)']},
+  {id:'M8',cat:'mid',name:'OOH Strategic',price:'$35,000',meta:'2–3 semanas',
+   forwho:'Marcas e instituciones con inversión en publicidad exterior (espectaculares, parabuses, vallas).',
+   inc:['Definición de audiencia objetivo georreferenciada','Identificación de mejores ubicaciones para campañas','Análisis de exposición e impactos','Recomendaciones de medios específicos','Reporte y mapas']},
+  {id:'M9',cat:'mid',name:'Escalamiento Territorial',price:'$128,000',meta:'5–7 semanas',
+   forwho:'Cadena en consolidación (15–25 sucursales) que necesita saber qué puntos están sanos y dónde crecer.',
+   inc:['Diagnóstico estratégico con dirección (sesión C-level)','Auditoría de red (hasta 20 sucursales)','Desempeño territorial vs. potencial por punto','Scoring de salud por sucursal con semáforo','Análisis completo de canibalización','Mapeo de competencia + benchmark','Identificación de gaps y zonas blancas','Scoring de candidatos a apertura (8–10 sitios)','8–12 zonas de oportunidad priorizadas','Dashboard interactivo Power BI','Reporte (25–40 pp) + 2 presentaciones','60 días de soporte']},
+  {id:'M10',cat:'mid',name:'Inteligencia Omnicanal',price:'$88,000',meta:'3–4 semanas',
+   forwho:'Marca o cadena retail con tienda física + e-commerce que quiere alinear su red con la demanda digital.',
+   inc:['Diagnóstico de objetivos y kick-off','Geocodificación de la base de pedidos e-commerce','Mapa de calor de ventas online por zona','Gap analysis de demanda digital sin tienda','Catchment areas para pick-up / BOPIS','Análisis de canibalización omnicanal','Dashboard interactivo Power BI','Reporte (25–40 pp) + presentación al comité','30 días de soporte']},
+  {id:'M11',cat:'mid',name:'Red de Franquicias',price:'$95,000',meta:'4–5 semanas',
+   forwho:'Franquiciante que necesita diseñar o reordenar su sistema de territorios y zonas de exclusividad.',
+   inc:['Diagnóstico estratégico con dirección (sesión C-level)','Objetivos, KPIs y criterios del sistema','Diseño de zonas de exclusividad (sin solapamientos)','Modelo de capacidad de mercado por ciudad/región','Mapa maestro de expansión y secuencia óptima','Dashboard interactivo Power BI','Reporte (25–40 pp) + presentación al comité','60 días de soporte']},
+  {id:'M12',cat:'mid',name:'Localización Turística',price:'$118,000',meta:'4–5 semanas',
+   forwho:'Inversionista hotelero o desarrollador que evalúa una ubicación de hospedaje en destino turístico.',
+   inc:['Diagnóstico de objetivos y kick-off','Análisis de flujos turísticos y estacionalidad','Perfil de demanda flotante vs. residente','Site selection hotelero (atractivos, hubs, corredores)','Mapeo de competencia hotelera de la zona','Áreas de captación y accesibilidad (isócronas)','Reporte ejecutivo + presentación','30 días de soporte']},
+  /* ---------- SENIOR ---------- */
+  {id:'S1',cat:'senior',name:'Diagnóstico Territorial Ejecutivo',price:'$180,000',meta:'4–6 semanas',
+   forwho:'CEO / Director de Expansión que necesita una radiografía de su red antes de crecer, vender o reestructurar.',
+   inc:['Auditoría de red completa','Desempeño territorial vs. potencial','Canibalización, gaps y solapamientos','Benchmark contra 3 competidores principales','10 mejores oportunidades + 5 sucursales en riesgo','Reporte ejecutivo (30–50 pp) + dashboard','Presentación al comité directivo','2 sesiones Q&A']},
+  {id:'S2',cat:'senior',name:'Master Plan de Expansión',price:'$650,000',meta:'4–6 meses',
+   forwho:'Empresa en crecimiento agresivo (10→50, 50→150 unidades).',
+   inc:['Todo lo del S1','Modelo de scoring propietario','Definición de formatos óptimos por zona','Plan secuencial de aperturas a 5 años','Modelo financiero territorial','Análisis de adquisición vs. apertura','3 workshops + 2 presentaciones a junta','90 días de soporte']},
+  {id:'S3',cat:'senior',name:'Due Diligence Territorial M&A',price:'$450,000',meta:'3–6 semanas',
+   forwho:'Fondos PE, family offices y corporativos en negociación de compra.',
+   inc:['Análisis de red de la empresa target','Detección de "tiendas zombi"','Solapamiento con red propia del comprador','Valuación territorial independiente','Banderas rojas y riesgos','Recomendación binaria con condiciones','Disponibilidad on-call durante negociación']},
+  {id:'S4',cat:'senior',name:'Rightsizing de Red',price:'$520,000',meta:'3–5 meses',
+   forwho:'Retail, banca y cadenas con red sobredimensionada.',
+   inc:['Diagnóstico del 100% de unidades','Modelo de salud por sucursal','3 escenarios de reestructura','Plan de cierres, reubicaciones y conversiones','Plan de transición laboral','ROI proyectado','Acompañamiento 90 días post-decisión']},
+  {id:'S5',cat:'senior',name:'Site Intelligence Industrial / Nearshoring',price:'$750,000',meta:'8–14 semanas',
+   forwho:'Multinacional buscando planta, data center o parque industrial.',
+   inc:['Macro-localización (50–100 candidatos municipales)','Filtrado por energía, agua, mano de obra y fiscal','Shortlist de 5–10 con análisis profundo','Análisis de incentivos por estado','Análisis de cadena de suministro','Análisis de riesgos','Reporte bilingüe + dashboard','Soporte en negociación con autoridades']},
+  /* ---------- PROGRAMAS ---------- */
+  {id:'P1',cat:'programa',name:'CEO Geo-Advisor',price:'$85,000',meta:'al mes · 12+ meses',
+   forwho:'CEO / COO con red >20 unidades que quiere un asesor estratégico continuo.',
+   inc:['Reunión ejecutiva mensual de 90 min','1 análisis territorial nuevo al mes','Acceso ilimitado por WhatsApp / email','Asistencia trimestral a comité directivo','Actualización de dashboard','1 capacitación trimestral al equipo']},
+  {id:'P2',cat:'programa',name:'Construcción de Área Interna',price:'$1,200,000',meta:'9 meses',
+   forwho:'Corporativo que quiere internalizar su capacidad de geomarketing.',
+   inc:['Diseño organizacional del área','Apoyo en reclutamiento','Implementación de stack tecnológico','Transferencia metodológica','Capacitación intensiva','Acompañamiento de los primeros 3 proyectos','Plan de continuidad']},
+  {id:'P3',cat:'programa',name:'Inteligencia Territorial 360°',price:'$45,000',meta:'al mes · 12+ meses',
+   forwho:'Empresa mid-market con red de 5–20 unidades.',
+   inc:['Hasta 16 horas de consultoría senior al mes','1 análisis territorial nuevo','Mantenimiento de dashboard','Reporte ejecutivo mensual','2 reuniones operativas con dirección']},
+  {id:'P4',cat:'programa',name:'Board Advisor',price:'$60,000',meta:'al mes + equity opcional · anual',
+   forwho:'Empresa con consejo formal que necesita voz experta en territorio.',
+   inc:['4–6 reuniones de consejo al año','Acceso ilimitado a CEO y junta','Revisión de decisiones críticas','Mentoría al director de expansión','Representación en eventos sectoriales']},
+  /* ---------- PRODUCTOS ---------- */
+  {id:'X1',cat:'producto',name:'Geo-Index Sectorial',price:'$120,000',meta:'al año por sector · suscripción',
+   forwho:'Empresas que necesitan un índice de potencial territorial actualizado para todo México.',
+   inc:['Index actualizado trimestralmente para todo México','Score 0–100 por AGEB / manzana','Hasta 5 usuarios','2 onboarding + 4 actualizaciones trimestrales','Reporte semestral de tendencias']},
+  {id:'X2',cat:'producto',name:'Reporte Sectorial Trimestral',price:'$25,000',meta:'por trimestre · $90,000/año',
+   forwho:'Empresas que quieren seguir los movimientos de su sector y competencia cada trimestre.',
+   inc:['Reporte ejecutivo de 40–60 pp','Análisis de movimientos de competencia','Mapas y datos descargables','Webinar de presentación trimestral','Acceso a archivo histórico']},
+  {id:'X3',cat:'producto',name:'Validador Express',price:'$15,000',meta:'por ubicación · 5 días hábiles',
+   forwho:'Quien necesita una respuesta rápida y automatizada sobre una sola ubicación.',
+   inc:['Análisis automatizado de 1 ubicación','Score 0–100 contra Geo-Index sectorial','Reporte ejecutivo de 8–10 pp','Recomendación binaria + 3 puntos clave','Descuentos por bloque de 5 o 10']},
+  {id:'X4',cat:'producto',name:'Diplomado in-company',price:'$280,000',meta:'por grupo (hasta 20) · 8 sesiones de 4h',
+   forwho:'Empresas, universidades y asociaciones que quieren formar a su equipo en geomarketing.',
+   inc:['32 horas en 8 sesiones','Material propietario impreso y digital','Casos prácticos con datos del cliente','Proyecto final aplicado','Certificado oficial']},
+  {id:'X5',cat:'producto',name:'Geo-Marketing Council',price:'$60,000',meta:'al año por empresa · por invitación',
+   forwho:'Líderes que buscan una comunidad cerrada y benchmarks entre pares.',
+   inc:['4 reuniones presenciales al año','Cena ejecutiva por reunión','Acceso a comunidad cerrada','Benchmarks anónimos entre miembros','1 reporte exclusivo anual','1 hora/mes de agenda directa']},
+  {id:'X6',cat:'producto',name:'Alertas Territoriales',price:'Setup $18,000 · desde $6,500',meta:'mensual por niveles · suscripción',
+   forwho:'Cadenas que quieren monitoreo automático de aperturas y cierres de su competencia.',
+   inc:['Setup inicial $18,000 (zonas, competidores, línea base)','Básico: hasta 3 zonas — $6,500/mes','Pro: hasta 8 zonas — $11,000/mes','Multi-ciudad: hasta 20 zonas — $18,000/mes','Alertas por correo / WhatsApp','Dashboard actualizado cada mes','Reporte ejecutivo del periodo','1 llamada de revisión trimestral']},
+  /* ---------- ESPECIALES ---------- */
+  {id:'E1',cat:'especial',name:'Peritaje / Expert Witness',price:'$3,500/hora',meta:'mín. $200,000/caso · $50,000/día en corte',
+   forwho:'Despachos legales y litigios que requieren testimonio experto en territorio.',
+   inc:['Análisis territorial pericial','Dictamen técnico','Testimonio en corte','Disponibilidad on-call durante el caso']},
+  {id:'E2',cat:'especial',name:'Keynote / Conferencia',price:'$60,000',meta:'+ viáticos',
+   forwho:'Congresos, foros y eventos corporativos.',
+   inc:['Conferencia magistral sobre geomarketing','Material visual de alto impacto','Sesión de Q&A']},
+  {id:'E3',cat:'especial',name:'Workshop Estratégico Cerrado',price:'$120,000',meta:'por día completo',
+   forwho:'Equipos directivos que quieren un taller intensivo a puerta cerrada.',
+   inc:['Taller de día completo','Casos aplicados al negocio del cliente','Marco de decisión territorial','Material de trabajo']},
+  {id:'E4',cat:'especial',name:'Asesoría puntual por hora',price:'$1,200/hora (mid) · $2,500/hora (senior)',meta:'según nivel',
+   forwho:'Quien necesita una opinión experta puntual sin un proyecto completo.',
+   inc:['Sesión de consultoría dirigida','Respuesta a preguntas específicas','Recomendaciones accionables']},
+  {id:'E5',cat:'especial',name:'Auditoría territorial trimestral',price:'$40,000',meta:'por auditoría',
+   forwho:'Empresas que quieren una revisión recurrente de su desempeño territorial.',
+   inc:['Auditoría de desempeño territorial','Detección de alertas y cambios','Reporte ejecutivo trimestral']},
+];
+
+/* ============================================================
+   CUESTIONARIO — 12 preguntas con scoring ponderado
+   ============================================================ */
+const QUESTIONS = [
+  {kicker:'Perfil', text:'¿Cómo describirías tu organización hoy?',
+   opts:[
+    {label:'Emprendedor o primer negocio', w:{M1:3,M2:1,X3:1}},
+    {label:'PYME o empresa pequeña', w:{M1:1,M2:1,M3:2,M4:1,M5:1}},
+    {label:'Empresa mediana o cadena en crecimiento', w:{M6:2,M9:2,M7:1,P3:1}},
+    {label:'Corporativo o gran empresa', w:{S1:2,S2:1,S4:1,P1:1}},
+    {label:'Fondo de inversión, multinacional o gobierno', w:{S3:2,S5:2}},
+   ]},
+  {kicker:'Escala', text:'¿Cuántas ubicaciones o sucursales operas actualmente?',
+   opts:[
+    {label:'Ninguna, voy a abrir la primera', w:{M1:3,X3:2}},
+    {label:'Una, busco la segunda', w:{M2:2,M3:1}},
+    {label:'Entre 2 y 5', w:{M3:3,M6:1}},
+    {label:'Entre 5 y 15', w:{M6:3,P3:1}},
+    {label:'Entre 15 y 25', w:{M9:3,S1:1}},
+    {label:'Más de 25', w:{S1:2,S4:2,P1:1}},
+   ]},
+  {kicker:'Objetivo', text:'¿Cuál es tu objetivo principal?',
+   opts:[
+    {label:'Validar UNA ubicación específica', w:{M1:5,X3:2}},
+    {label:'Comparar VARIAS ubicaciones candidatas', w:{M2:5,M3:1}},
+    {label:'Planear una expansión de varias sucursales', w:{M6:4,M3:2,S2:1}},
+    {label:'Diagnosticar la salud de mi red actual', w:{S1:4,M9:3,S4:2}},
+    {label:'Optimizar mi fuerza de ventas o territorios', w:{M7:5}},
+    {label:'Diseñar o reordenar mis franquicias', w:{M11:5}},
+    {label:'Alinear mi tienda física con mi venta online', w:{M10:5}},
+    {label:'Evaluar una ubicación turística u hotelera', w:{M12:5}},
+    {label:'Comprar o fusionar una empresa (M&A)', w:{S3:5}},
+    {label:'Encontrar sitio industrial o de nearshoring', w:{S5:5}},
+    {label:'Entender a mis clientes actuales', w:{M5:4,M4:2}},
+    {label:'Colocar publicidad exterior (OOH)', w:{M8:5}},
+   ]},
+  {kicker:'Sector', text:'¿En qué sector operas?',
+   opts:[
+    {label:'Retail o comercio', w:{M6:1,M10:1,M3:1}},
+    {label:'Restaurante o alimentos', w:{M1:1,M2:1,M3:1}},
+    {label:'Hotelería o turismo', w:{M12:4}},
+    {label:'Franquicias', w:{M11:3}},
+    {label:'Industrial o manufactura', w:{S5:3}},
+    {label:'Servicios con fuerza de ventas', w:{M7:3}},
+    {label:'E-commerce + tienda física', w:{M10:4}},
+    {label:'Otro / varios', w:{}},
+   ]},
+  {kicker:'Canal', text:'¿Cómo vendes a tus clientes?',
+   opts:[
+    {label:'Solo en punto físico', w:{}},
+    {label:'Físico y online (omnicanal)', w:{M10:3}},
+    {label:'Solo online, quiero abrir físico', w:{M10:2,M3:1}},
+    {label:'No aplica a mi caso', w:{}},
+   ]},
+  {kicker:'Presupuesto', text:'¿Cuál es tu presupuesto aproximado para este proyecto?',
+   opts:[
+    {label:'Menos de $30,000', w:{M1:2,M2:1,M4:1,X3:2}},
+    {label:'$30,000 – $90,000', w:{M3:2,M5:1,M7:2,M8:2}},
+    {label:'$90,000 – $200,000', w:{M9:2,M10:1,M11:2,M12:2,S1:1}},
+    {label:'$200,000 – $700,000', w:{S1:2,S3:2,S4:2}},
+    {label:'Más de $700,000', w:{S2:2,S5:2,P2:1}},
+   ]},
+  {kicker:'Candidatos', text:'¿Cuántas ubicaciones candidatas necesitas evaluar?',
+   opts:[
+    {label:'Solo una', w:{M1:1,X3:1,M12:1}},
+    {label:'Entre 2 y 3', w:{M2:2}},
+    {label:'Entre 4 y 8', w:{M3:1,M6:1}},
+    {label:'Muchas, o toda una región', w:{S2:1,S5:1,M6:1}},
+    {label:'Ninguna, no es lo que busco', w:{}},
+   ]},
+  {kicker:'Datos', text:'¿Tienes una base de datos de clientes para analizar?',
+   opts:[
+    {label:'Sí, quiero mapearla y limpiarla', w:{M4:4}},
+    {label:'Sí, quiero saber dónde están mis clientes', w:{M5:4}},
+    {label:'Tengo historial de ventas para modelos predictivos', w:{M6:2,M9:2}},
+    {label:'No tengo base de datos', w:{}},
+   ]},
+  {kicker:'Modalidad', text:'¿Buscas un proyecto puntual o un acompañamiento continuo?',
+   opts:[
+    {label:'Un proyecto único con entregable', w:{}},
+    {label:'Asesoría estratégica mensual continua', w:{P1:8,P3:8,P4:2}},
+    {label:'Monitoreo automático de competencia', w:{X6:8}},
+    {label:'Reportes o datos por suscripción', w:{X1:8,X2:3}},
+    {label:'Capacitar a mi equipo o crear área interna', w:{X4:8,P2:3}},
+   ]},
+  {kicker:'Urgencia', text:'¿Qué tan pronto necesitas resultados?',
+   opts:[
+    {label:'Muy pronto (cuestión de días)', w:{X3:3,M1:1}},
+    {label:'En unas semanas', w:{M2:1,M3:1}},
+    {label:'En meses, es una decisión estratégica', w:{S1:1,S2:1,S5:1}},
+    {label:'Es algo continuo, sin fecha límite', w:{P1:1,P3:1,X1:1,X6:1}},
+   ]},
+  {kicker:'Equipo de venta', text:'¿Tienes una fuerza de ventas o rutas que organizar?',
+   opts:[
+    {label:'Sí, 10 o más vendedores o rutas', w:{M7:3}},
+    {label:'Sí, un equipo pequeño', w:{M7:1}},
+    {label:'No, no aplica', w:{}},
+   ]},
+  {kicker:'Decisión', text:'¿A quién presentarás los resultados?',
+   opts:[
+    {label:'A mí mismo (soy el dueño)', w:{M1:2,M2:1,M3:1}},
+    {label:'A dirección o gerencia', w:{M6:1,M9:1,M10:1,M11:1}},
+    {label:'Al comité directivo o CEO', w:{S1:2,S2:1,S4:1}},
+    {label:'Al consejo de administración', w:{P4:3,S2:1}},
+    {label:'A inversionistas o un fondo', w:{S3:3}},
+   ]},
+];
+
+/* ============================================================
+   RENDER: catálogo
+   ============================================================ */
+const grid = document.getElementById('pkgGrid');
+const filterBox = document.getElementById('filters');
+let activeCat = 'mid';
+
+function ivaPrice(p){return `${p} <span class="iva">+ IVA</span>`;}
+
+function renderFilters(){
+  filterBox.innerHTML = CATS.map(c =>
+    `<button class="chip ${c.id===activeCat?'on':''}" onclick="setCat('${c.id}')">${c.label}</button>`).join('');
+}
+function setCat(id){activeCat=id;renderFilters();renderPkgs();}
+
+function renderPkgs(){
+  const list = activeCat==='all' ? PKGS : PKGS.filter(p=>p.cat===activeCat);
+  grid.innerHTML = list.map(p=>`
+    <article class="pkg" data-cat="${p.cat}">
+      <div class="pkg-top">
+        <span class="code mono">${p.id}</span>
+        <h3>${p.name}</h3>
+        <div class="price">${ivaPrice(p.price)}</div>
+        <div class="meta">${p.meta}</div>
+      </div>
+      <div class="pkg-body">
+        <div class="forwho"><b>Para quién</b>${p.forwho}</div>
+        <div>
+          <span class="inc-label">Incluye</span>
+          <ul class="inc" style="margin-top:9px">${p.inc.map(i=>`<li>${i}</li>`).join('')}</ul>
+        </div>
+        <a class="cta" href="${waHref(p)}" target="_blank" rel="noopener">Cotizar este paquete</a>
+      </div>
+    </article>`).join('');
+}
+
+function waHref(p){
+  const msg = encodeURIComponent(`Hola, me interesa el paquete ${p.id} — ${p.name} (${p.price} + IVA). ¿Podemos conversar?`);
+  return `https://wa.me/523313035476?text=${msg}`;
+}
+
+/* ============================================================
+   NAVEGACIÓN entre vistas
+   ============================================================ */
+const catalogPanel = document.getElementById('catalogPanel');
+const quizPanel = document.getElementById('quizPanel');
+
+function scrollToPanels(){window.scrollTo({top:0,behavior:'smooth'});}
+function openCatalog(){document.body.classList.add('panel-open');quizPanel.classList.remove('active');catalogPanel.classList.add('active');setCat('mid');scrollToPanels();}
+function openQuiz(){document.body.classList.add('panel-open');catalogPanel.classList.remove('active');quizPanel.classList.add('active');restartQuiz();scrollToPanels();}
+function goHome(){document.body.classList.remove('panel-open');catalogPanel.classList.remove('active');quizPanel.classList.remove('active');window.scrollTo({top:0,behavior:'smooth'});}
+
+/* ============================================================
+   LÓGICA del cuestionario
+   ============================================================ */
+const answers = new Array(QUESTIONS.length).fill(null);
+let cur = 0;
+let advancing = false;
+
+const qCount=document.getElementById('qCount'),qKicker=document.getElementById('qKicker'),
+      qText=document.getElementById('qText'),qOpts=document.getElementById('qOpts'),
+      progressBar=document.getElementById('progressBar'),prevBtn=document.getElementById('prevBtn'),
+      quizFlow=document.getElementById('quizFlow'),
+      resultBox=document.getElementById('result');
+
+function renderQuestion(){
+  const q = QUESTIONS[cur];
+  qCount.textContent = `Pregunta ${cur+1} de ${QUESTIONS.length}`;
+  qKicker.textContent = q.kicker;
+  qText.textContent = q.text;
+  progressBar.style.width = `${(cur)/(QUESTIONS.length)*100}%`;
+  qOpts.innerHTML = q.opts.map((o,i)=>
+    `<button class="opt ${answers[cur]===i?'sel':''}" onclick="pick(${i})">
+       <span class="dot"></span>${o.label}
+     </button>`).join('');
+  prevBtn.disabled = cur===0;
+}
+function pick(i){
+  if(advancing)return;
+  answers[cur]=i;
+  document.querySelectorAll('#qOpts .opt').forEach((el,idx)=>el.classList.toggle('sel',idx===i));
+  advancing=true;
+  setTimeout(()=>{ advancing=false; nextQ(); }, 260);
+}
+function nextQ(){
+  if(answers[cur]===null)return;
+  if(cur<QUESTIONS.length-1){cur++;renderQuestion();window.scrollTo({top:quizPanel.offsetTop-20,behavior:'smooth'});}
+  else showResult();
+}
+function prevQ(){if(cur>0){cur--;renderQuestion();}}
+
+function computeScores(){
+  const s={};
+  PKGS.forEach(p=>s[p.id]=0);
+  answers.forEach((ai,qi)=>{
+    if(ai===null)return;
+    const w = QUESTIONS[qi].opts[ai].w||{};
+    for(const k in w){ if(s[k]!==undefined) s[k]+=w[k]; }
+  });
+  return s;
+}
+function pkgById(id){return PKGS.find(p=>p.id===id);}
+
+let resultSet = [];   // ids de los paquetes recomendados (top 3)
+
+function showResult(){
+  const scores = computeScores();
+  let ranked = Object.entries(scores).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  if(ranked.length===0) ranked=[['M1',0]];   // respaldo
+  resultSet = ranked.slice(0,3).map(([id])=>id);
+
+  progressBar.style.width='100%';
+  quizFlow.style.display='none';
+  resultBox.classList.add('show');
+  renderResult(resultSet[0]);
+  window.scrollTo({top:quizPanel.offsetTop-20,behavior:'smooth'});
+}
+
+function renderResult(selectedId, scrollUp){
+  const top = pkgById(selectedId);
+
+  const lab=document.getElementById('rLab');
+  if(lab) lab.textContent = (selectedId===resultSet[0]) ? 'Tu paquete ideal' : 'Otra opción que podría encajar';
+
+  document.getElementById('rCode').textContent=top.id;
+  document.getElementById('rName').textContent=top.name;
+  document.getElementById('rPrice').innerHTML=`${top.price} <span class="iva">+ IVA</span>`;
+  document.getElementById('rMeta').textContent=top.meta;
+  document.getElementById('rForwho').innerHTML=`<b style="font-family:'Space Grotesk';display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:4px">Diseñado para</b>${top.forwho}`;
+  document.getElementById('rInc').innerHTML=top.inc.map(i=>`<li>${i}</li>`).join('');
+
+  const alts = resultSet.filter(id=>id!==selectedId).map(pkgById);
+  const altGrid=document.getElementById('altGrid');
+  if(alts.length){
+    altGrid.innerHTML=alts.map(a=>`
+      <button class="alt" type="button" onclick="selectAlt('${a.id}')">
+        <span class="code mono">${a.id}</span>
+        <h5>${a.name}</h5>
+        <div class="p">${a.price} <span class="iva">+ IVA</span></div>
+        <div class="mono" style="font-size:12px;color:var(--muted);margin-top:3px">${a.meta}</div>
+        <span class="alt-go mono">Ver detalles →</span>
+      </button>`).join('');
+    document.querySelector('.alts').style.display='block';
+  } else {
+    document.querySelector('.alts').style.display='none';
+  }
+
+  const waMsg=encodeURIComponent(`Hola, hice el cuestionario y me interesa el paquete ${top.id} — ${top.name} (${top.price} + IVA). Me gustaría cotizarlo.`);
+  document.getElementById('waLink').href=`https://wa.me/523313035476?text=${waMsg}`;
+
+  if(scrollUp){window.scrollTo({top:quizPanel.offsetTop-20,behavior:'smooth'});}
+}
+
+function selectAlt(id){ renderResult(id, true); }
+function restartQuiz(){
+  answers.fill(null);cur=0;
+  resultBox.classList.remove('show');
+  quizFlow.style.display='block';
+  renderQuestion();
+}
+
+/* ============================================================
+   FONDO cartográfico (rejilla + contornos) en SVG
+   ============================================================ */
+function buildGrid(el){
+  const w=1200,h=600;
+  let lines='';
+  for(let x=0;x<=w;x+=48) lines+=`<line x1="${x}" y1="0" x2="${x}" y2="${h}" stroke="#3FB6A8" stroke-width="0.5"/>`;
+  for(let y=0;y<=h;y+=48) lines+=`<line x1="0" y1="${y}" x2="${w}" y2="${y}" stroke="#3FB6A8" stroke-width="0.5"/>`;
+  // contornos topográficos
+  let cont='';
+  const cx=920,cy=210;
+  for(let r=40;r<=240;r+=42){
+    const pts=[];
+    for(let a=0;a<=360;a+=18){
+      const rad=a*Math.PI/180;
+      const wob=1+0.13*Math.sin(a/40+r)+0.08*Math.cos(a/22);
+      pts.push(`${(cx+Math.cos(rad)*r*1.25*wob).toFixed(1)},${(cy+Math.sin(rad)*r*wob).toFixed(1)}`);
+    }
+    cont+=`<polygon points="${pts.join(' ')}" fill="none" stroke="#C19A45" stroke-width="1" opacity="0.5"/>`;
+  }
+  el.setAttribute('viewBox',`0 0 ${w} ${h}`);
+  el.innerHTML=`<g opacity="0.55">${lines}</g>${cont}<circle cx="${cx}" cy="${cy}" r="5" fill="#E0532E"/>`;
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderFilters();
+renderPkgs();
+renderQuestion();
+buildGrid(document.getElementById('gridHero'));
+buildGrid(document.getElementById('gridRes'));
+</script>
+</body>
+</html>
